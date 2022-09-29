@@ -1,5 +1,5 @@
 const express = require('express');
-const categoriaController = require('./controller/CategoriaController');
+const categoriaController = require('./controller/UsuarioController');
 const app = express();
 
 app.set('view engine', 'ejs');
