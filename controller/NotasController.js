@@ -1,13 +1,13 @@
 const express = require('express');
+
+const modelNotas = require('../model/NotasModel');
 const router = express.Router();
-const modelUsuario = require('../model/UsuarioModel');
 
-router.get('/home', (req, res)=>{
-
-    modelUsuario.findAll()
+router.get('/listarAnotacao', (req, res)=>{
+  modelNotas.findAll()
         .then(
-            (categorias)=>{
-                return res.status(200).json(categorias);
+            (anotacoes)=>{
+                return res.status(200).json(anotacoes);
             }
         ).catch(
             (erro)=>{
@@ -18,19 +18,18 @@ router.get('/home', (req, res)=>{
                 });
             }
         );
-
 });
 
-router.post('/inserirEmail', (req, res)=>{
-
-    let {email_usuario, senha_usuario} = req.body;
+router.post('/inserirAnotacao', (req, res)=>{
+    let {titulo_nota, anotacao, date} = req.body;
 
     console.log(req.body);
 
-    modelUsuario.create(
+    modelNotas.create(
         {
-        email_usuario,
-        senha_usuario
+          titulo_nota,
+          anotacao,
+          date
         }
     ).then(
         ()=>{
@@ -48,43 +47,39 @@ router.post('/inserirEmail', (req, res)=>{
                     });
         }
     );
-
 });
 
+router.put('/alterarAnotacao', (req, res)=>{
+  let {id, titulo_nota, anotacao, date} = req.body;
 
-router.put('/alterarEmail', (req, res)=>{
-    let {id, email_usuario, senha_usuario} = req.body;
+    console.log(req.body);
 
-    //ALTERANDO OS DADOS:
-    modelUsuario.update(
-        {email_usuario, senha_usuario},
-        {where:{id}}
-
-    ).then( ()=>{
-
-        return res.status(200).json({
-            erroStatus: false,
-            menssagemStatus: 'Nota alterada com sucesso!'
-        });
-
-    }).catch(
+    modelNotas.update(
+      {titulo_nota, anotacao,date},
+      {where:{id}}
+    ).then(
+        ()=>{
+                return res.status(201).json({
+                    erroStatus: false,
+                    menssagemStatus: 'Anotação inserida com sucesso!'
+            });
+        }
+    ).catch(
         (erro)=>{
                     return res.status(400).json({
                         erroStatus: true,
-                        erroMessagem: 'Houve um erro ao alterar a anotação',
+                        erroMessagem: 'Houve um erro ao inserir a anotação',
                         erroBancoDados: erro
                     });
         }
     );
-
 });
 
-router.delete('/excluirEmail/:id', (req, res)=>{
-
+router.delete('/excluirNota/:id', (req, res)=>{
     let {id} = req.params;
     console.log(req.params);
 
-    modelUsuario.destroy(
+    modelNotas.destroy(
         {where: {id}}
 
     ).then( ()=>{
@@ -103,7 +98,6 @@ router.delete('/excluirEmail/:id', (req, res)=>{
                     });
         }
     );
-
 });
 
 module.exports = router;

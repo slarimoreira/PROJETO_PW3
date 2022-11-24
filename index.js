@@ -1,13 +1,11 @@
 const express = require('express');
-const categoriaController = require('./controller/UsuarioController');
+const notasController = require('./controller/NotasController');
 const app = express();
-
-app.set('view engine', 'ejs');
-app.use(express.static('public'));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use("/", categoriaController);
+app.use("/", notasController);
 
-app.listen(8089, () =>{console.log("App rodando!");});
+app.listen(6000, () =>{console.log("App rodando!");});
+
