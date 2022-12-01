@@ -7,5 +7,5 @@ app.use(express.urlencoded({extended: true}));
 
 app.use("/", notasController);
 
-app.listen(6000, () =>{console.log("App rodando!");});
+app.listen(3000, () =>{console.log("App rodando!");});
 
