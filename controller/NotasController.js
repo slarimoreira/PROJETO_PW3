@@ -75,6 +75,29 @@ router.put('/alterarAnotacao', (req, res)=>{
     );
 });
 
+
+router.get('/listarNota/:id',(req, res)=>{
+
+    let {id} = req.params;
+
+    modelNotas.findByPk(id)
+        .then(
+            (categoria)=>{
+                res.status(200).json(categoria);
+            }
+        ).catch(
+            (erro)=>{
+                return res.status(400).json({
+                    erroStatus: true,
+                    erroMessagem: 'Houve um erro ao selecionar os dados de categoria',
+                    erroBancoDados: erro
+                });
+            }
+        );
+
+});
+
+
 router.delete('/excluirNota/:id', (req, res)=>{
     let {id} = req.params;
     console.log(req.params);
